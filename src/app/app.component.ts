@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
@@ -86,6 +87,10 @@ export class AppComponent {
 
   onDrop() {
     console.log('onDrop');
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.rows, event.previousIndex, event.currentIndex);
   }
 
   handleMouseEnter(target: HTMLElement): void {

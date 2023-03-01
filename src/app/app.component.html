@@ -5,9 +5,9 @@
 
 <div style="margin-top: 150px;">
   <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-  <div *cdkVirtualFor="let section of sections; let i = index;">
-    <div draggable="true" class="row-outer" *ngFor="let row of rows; let j = index;" (dragover)="dragOver($event, i, j)"
-      (drop)="onDrop()" (dragleave)="resetMarkedRows($event)"
+  <div *cdkVirtualFor="let section of sections; let i = index;" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="row-outer" *ngFor="let row of rows; let j = index;" (dragover)="dragOver($event, i, j)"
+      (drop)="onDrop()" (dragleave)="resetMarkedRows($event)" cdkDrag
       style="width: 100%; height: 30px; border: 1px solid rgb(40, 56, 62); display: flex;">
       <div *ngFor="let cell of row | keyvalue" style="width: 100%; height: 30px; border: 1px solid rgb(40, 56, 62);">
         <!-- <div>Cell</div> -->
@@ -20,7 +20,7 @@
                     <div>
                       <div>
                         <div>
-                          <div>Cell</div>
+                          <div>Cell {{i}}</div>
                         </div>
                       </div>
                     </div>
