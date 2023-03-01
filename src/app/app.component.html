@@ -1,10 +1,11 @@
-<diV>
+<div>
   <div style="width: 50%; height: 30px; border: 1px solid rgb(40, 56, 62); text-align: center;" draggable="true">Drag
   </div>
-</diV>
+</div>
 
 <div style="margin-top: 150px;">
-  <div *ngFor="let section of sections; let i = index;">
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+  <div *cdkVirtualFor="let section of sections; let i = index;">
     <div draggable="true" class="row-outer" *ngFor="let row of rows; let j = index;" (dragover)="dragOver($event, i, j)"
       (drop)="onDrop()" (dragleave)="resetMarkedRows($event)"
       style="width: 100%; height: 30px; border: 1px solid rgb(40, 56, 62); display: flex;">
@@ -32,4 +33,5 @@
       </div>
     </div>
   </div>
+</cdk-virtual-scroll-viewport>
 </div>
