@@ -92,7 +92,8 @@ export class AppComponent {
       '.row-outer'
     ) as HTMLElement;
     if(rowOuter)
-    rowOuter.style.border = '1px solid #00FF00';
+    rowOuter.style.border = '1px solid #FF0000';
+    rowOuter.style.backgroundColor = '#0000FF';
   }
 
   handleMouseLeave(target: HTMLElement): void {
@@ -101,5 +102,6 @@ export class AppComponent {
     ) as HTMLElement;
     if(rowOuter)
     rowOuter.style.border = 'none';
+    rowOuter.style.backgroundColor = 'transparent';
   }
 }
