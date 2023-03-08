@@ -5,11 +5,23 @@
   .example-viewport {
     height: 100vh;
     width: 100%;
-    border: 1px solid black;
+    // border: 1px solid black;
   }
   
   .example-item {
-    height: 50px;
+    height: fit-content;
+  }
+
+  .dragging{
+    position: absolute;
+    width: 100%;
+    z-index: 20;
+  }
+
+  .section{
+    margin-top: 20px;
+    height: 60px;
+    background-color: bisque;
   }
 
   .example-list {

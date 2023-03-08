@@ -4,34 +4,33 @@
 </div>
 
 <div style="margin-top: 150px;">
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-  <div *cdkVirtualFor="let section of sections; let i = index;" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <div class="row-outer" *ngFor="let row of rows; let j = index;" (dragover)="dragOver($event, i, j)"
-      (drop)="onDrop()" (dragleave)="resetMarkedRows($event)" cdkDrag
-      style="width: 100%; height: 30px; border: 1px solid rgb(40, 56, 62); display: flex;">
-      <div *ngFor="let cell of row | keyvalue" style="width: 100%; height: 30px; border: 1px solid rgb(40, 56, 62);">
-        <!-- <div>Cell</div> -->
-        <div>
-          <div>
-            <div>
-              <div>
-                <div>
-                  <div>
-                    <div>
-                      <div>
-                        <div>
-                          <div>Cell {{i}}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div class="example-viewport" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let item of sectionsAndRows; let i = index;" class="example-item"
+      cdkDrag >
+      <div style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && !selectedRows.includes(item)" (click)="onTouch($event,i)" >
+        <ng-container style="height: 100%; width: 100%;">
+          <div style="display: flex; justify-content: space-between; height: 50px; border: 1px solid black;"
+            class="example-box" appHighlight>
+            <div>{{item.costItem}}</div>
+            <div>{{item.notes}}</div>
+            <div>{{item.quantity}}</div>
+            <div>{{item.unit}}</div>
+            <div>{{item.costPer}}</div>
           </div>
-        </div>
+        </ng-container>
       </div>
+      <ng-container style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && selectedRows[0]===item">
+        <div *ngFor="let row of selectedRows; let j = index;">
+          <div style="display: flex; justify-content: space-between; height: 50px; border: 1px solid black; background-color:aqua;"
+          class="example-box" appHighlight>
+          <div>{{item.costItem}}</div>
+          <div>{{item.notes}}</div>
+          <div>{{item.quantity}}</div>
+          <div>{{item.unit}}</div>
+          <div>{{item.costPer}}</div>
+        </div>
+        </div>
+      </ng-container >
     </div>
   </div>
-</cdk-virtual-scroll-viewport>
 </div>
