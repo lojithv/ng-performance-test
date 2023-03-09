@@ -112,6 +112,8 @@ export class AppComponent {
   selectedSectionId:string | undefined;
   dragOverSection: any;
   dragOverSectionId: any;
+  dragging=false;
+  draggingItem: any;
 
   dragOver(event: Event) {
     event.preventDefault();
@@ -124,7 +126,18 @@ export class AppComponent {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.sectionsAndRows, event.previousIndex, event.currentIndex);
+    // moveItemInArray(this.sectionsAndRows, event.previousIndex, event.currentIndex);
+    if(this.selectedRows){
+      console.log(event.previousIndex, " " , event.currentIndex)
+      // moveItemInArray(this.sectionsAndRows, event.previousIndex, event.currentIndex);
+      const upper = this.sectionsAndRows.slice(0,event.currentIndex).filter(r=>!this.selectedRows.includes(r))
+      const lower = this.sectionsAndRows.slice(event.currentIndex).filter(r=>!this.selectedRows.includes(r))
+      console.log(upper)
+      console.log(lower)
+      this.sectionsAndRows = [upper,this.selectedRows,lower].flat()
+    } else {
+      moveItemInArray(this.sectionsAndRows, event.previousIndex, event.currentIndex);
+    }
     // console.log(      event.previousIndex,
     //   event.currentIndex)
     //   const prevIndex = event.previousIndex;
@@ -163,6 +176,14 @@ export class AppComponent {
     rowOuter.style.backgroundColor = '#0000FF';
   }
 
+  setDragging(v:boolean,item?:any){
+    this.dragging=v
+    this.draggingItem = item
+    if(v){
+      this.sectionsAndRows = this.sectionsAndRows.filter(r=>!this.selectedRows.includes(r) || r === item)
+    }
+  }
+
   handleMouseLeave(target: HTMLElement): void {
     const rowOuter = (target as HTMLElement).closest(
       '.row-outer'
@@ -172,12 +193,12 @@ export class AppComponent {
     rowOuter.style.backgroundColor = 'transparent';
   }
 
-  onTouch(event: MouseEvent, idx: number) {
+  onTouch(event: MouseEvent, selectedItem:any) {
     // event.stopPropagation()
     console.log(this.sectionsAndRows,"#################");
 
     // this.selectedRows = [];
-    const selectedItem: any = this.sectionsAndRows[idx];
+    // const selectedItem: any = this.sectionsAndRows[idx];
     // selectedItem.checked = !selectedItem.checked;
     this.selectedRows.push(selectedItem)
     // this.sectionsAndRows = this.sectionsAndRows.filter(s=>s.sectionId !== selectedItem.sectionId)

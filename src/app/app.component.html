@@ -6,10 +6,10 @@
 <div style="margin-top: 150px;">
   <div class="example-viewport" cdkDropList (cdkDropListDropped)="drop($event)">
     <div *ngFor="let item of sectionsAndRows; let i = index;" class="example-item"
-      cdkDrag >
-      <div style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && !selectedRows.includes(item)" (click)="onTouch($event,i)" >
+      cdkDrag (mouseup)="setDragging(false)" (mousedown)="setDragging(false)" (cdkDragStarted)="setDragging(true,item)">
+      <div style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && !(selectedRows.includes(item) && dragging)" (click)="onTouch($event,item)" >
         <ng-container style="height: 100%; width: 100%;">
-          <div style="display: flex; justify-content: space-between; height: 50px; border: 1px solid black;"
+          <div style="display: flex; justify-content: space-between; height: 50px; border: 1px solid black;" [ngStyle]="{'background-color':selectedRows.includes(item)?'aqua':'white'}"
             class="example-box" appHighlight>
             <div>{{item.costItem}}</div>
             <div>{{item.notes}}</div>
@@ -19,7 +19,7 @@
           </div>
         </ng-container>
       </div>
-      <ng-container style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && selectedRows[0]===item">
+      <ng-container style="height: 100%; width: 100%;" *ngIf="item.type === 'ROW' && draggingItem === item && dragging">
         <div *ngFor="let row of selectedRows; let j = index;">
           <div style="display: flex; justify-content: space-between; height: 50px; border: 1px solid black; background-color:aqua;"
           class="example-box" appHighlight>
