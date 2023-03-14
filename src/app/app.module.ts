@@ -9,11 +9,14 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HighlightDirective } from './highlight.directive';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { SortablejsModule } from 'ngx-sortablejs';
+import { SortablejsCmpComponent } from './sortablejs-cmp/sortablejs-cmp.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HighlightDirective
+    HighlightDirective,
+    SortablejsCmpComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     ScrollingModule,
     BrowserAnimationsModule,
     DragDropModule,
+    SortablejsModule.forRoot({ animation: 150 }),
     MatCheckboxModule,
     FormsModule
   ],

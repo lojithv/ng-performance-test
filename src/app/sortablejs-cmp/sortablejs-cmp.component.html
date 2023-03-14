@@ -1,0 +1,17 @@
+<div class="container pt-5">
+    <div class="row">
+      <div class="col-sm-6">
+        <ul class="list-group sortable" [sortablejs]="normalList1" [sortablejsOptions]="normalOptions" (onUpdate)="onUpdateList1($event)">
+          <li class="list-group-item" *ngFor="let item of normalList1">Element {{ item }}</li>
+        </ul>
+        <pre class="mt-3">{{normalList1|json}}</pre>
+      </div>
+  
+      <div class="col-sm-6">
+        <ul class="list-group sortable" [sortablejs]="normalList2" [sortablejsOptions]="normalOptions">
+          <li class="list-group-item" *ngFor="let item of normalList2">Element {{ item }}</li>
+        </ul>
+        <pre class="mt-3">{{normalList2|json}}</pre>
+      </div>
+    </div>
+  </div>

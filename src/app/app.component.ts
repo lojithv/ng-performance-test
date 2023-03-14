@@ -138,23 +138,6 @@ export class AppComponent {
     } else {
       moveItemInArray(this.sectionsAndRows, event.previousIndex, event.currentIndex);
     }
-    // console.log(      event.previousIndex,
-    //   event.currentIndex)
-    //   const prevIndex = event.previousIndex;
-    //   const currIndex = event.currentIndex;
-    //   console.log(prevIndex, " ", currIndex)
-    
-    //   if (prevIndex !== currIndex) {
-    //     console.log(this.selectedRows)
-    //     const item = this.sectionsAndRows[prevIndex];
-    //     console.log(sectionsAndRows)
-    //     const deleted = this.sectionsAndRows.splice(this.selectedRows.length ? prevIndex -  this.selectedRows.length: prevIndex, this.selectedRows.length ? this.selectedRows.length : 1);
-    //     console.log(sectionsAndRows)
-    //     // console.log(deleted)
-    //     const newRows = this.sectionsAndRows.splice(currIndex, 0, ...this.selectedRows);
-    //     // this.sectionsAndRows = newRows
-    //   }
-    // this.deselect()
   }
 
   getRows(sectionId:string){
@@ -179,9 +162,9 @@ export class AppComponent {
   setDragging(v:boolean,item?:any){
     this.dragging=v
     this.draggingItem = item
-    if(v){
-      this.sectionsAndRows = this.sectionsAndRows.filter(r=>!this.selectedRows.includes(r) || r === item)
-    }
+    // if(v){
+    //   this.sectionsAndRows = this.sectionsAndRows.filter(r=>!this.selectedRows.includes(r) || r === item)
+    // }
   }
 
   handleMouseLeave(target: HTMLElement): void {
