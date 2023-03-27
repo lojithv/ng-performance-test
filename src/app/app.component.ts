@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import Konva from 'konva';
 
 @Component({
   selector: 'app-root',
@@ -7,107 +8,84 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'ng-performance-test';
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
 
-  initialRow = {
-    a1: { t: 'cell' },
-    a2: { t: 'cell' },
-    a3: { t: 'cell' },
-    a4: { t: 'cell' },
-    a5: { t: 'cell' },
-  };
+    var stage = new Konva.Stage({
+      container: 'container',
+      width: width,
+      height: height,
+    });
 
-  rows = [
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow,
-    this.initialRow, //24 rows
-  ];
-  sections = [
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,
-    this.rows,  //28 sections
-  ];
+    var layer = new Konva.Layer();
+    stage.add(layer);
 
-  dragOver(event: Event, sectionIndex: any, rowIndex: any) {
-    event.preventDefault();
-    console.log('drag over');
-    this.handleMouseEnter(event.target as HTMLElement);
-  }
+    //     Konva.Image.fromURL('https://takeoff.efitosolutions.com/api/public/file/6421487f1349a1cee9c8300e', function (darthNode) {
+    //     darthNode.setAttrs({
+    //       x: 0,
+    //       y: 0,
+    //       scaleX: 0.5,
+    //       scaleY: 0.5,
+    //     });
+    //     layer.add(darthNode);
+    //   });
 
-  resetMarkedRows(event: Event): void {
-    this.handleMouseLeave(event.target as HTMLElement);
-  }
+    var imageObj = new Image();
+    imageObj.onload = function () {
+      var yoda = new Konva.Image({
+        x: 50,
+        y: 50,
+        image: imageObj,
+        draggable: true,
+      });
 
-  onDrop() {
-    console.log('onDrop');
-  }
+      // add the shape to the layer
+      layer.add(yoda);
+    };
+    imageObj.src = 'https://takeoff.efitosolutions.com/api/public/file/6421487f1349a1cee9c8300e';
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.rows, event.previousIndex, event.currentIndex);
-  }
+    //   var circle = new Konva.Image({
+    //     x: stage.width() / 2,
+    //     y: stage.height() / 2,
+    //     radius: 50,
+    //     fill: 'green',
+    //   });
+    //   layer.add(circle);
 
-  handleMouseEnter(target: HTMLElement): void {
-    const rowOuter = (target as HTMLElement).closest(
-      '.row-outer'
-    ) as HTMLElement;
-    if(rowOuter)
-    rowOuter.style.border = '1px solid #FF0000';
-    rowOuter.style.backgroundColor = '#0000FF';
-  }
+    var scaleBy = 2;
+    stage.on('wheel', (e) => {
+      // stop default scrolling
+      e.evt.preventDefault();
 
-  handleMouseLeave(target: HTMLElement): void {
-    const rowOuter = (target as HTMLElement).closest(
-      '.row-outer'
-    ) as HTMLElement;
-    if(rowOuter)
-    rowOuter.style.border = 'none';
-    rowOuter.style.backgroundColor = 'transparent';
+      var oldScale = stage.scaleX();
+      var pointer = stage.getPointerPosition();
+      if (pointer) {
+        var mousePointTo = {
+          x: (pointer.x - stage.x()) / oldScale,
+          y: (pointer.y - stage.y()) / oldScale,
+        };
+
+        // how to scale? Zoom in? Or zoom out?
+        let direction = e.evt.deltaY > 0 ? 1 : -1;
+
+        // when we zoom on trackpad, e.evt.ctrlKey is true
+        // in that case lets revert direction
+        if (e.evt.ctrlKey) {
+          direction = -direction;
+        }
+
+        var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+        stage.scale({ x: newScale, y: newScale });
+
+        var newPos = {
+          x: pointer.x - mousePointTo.x * newScale,
+          y: pointer.y - mousePointTo.y * newScale,
+        };
+        stage.position(newPos);
+      }
+    });
   }
 }
